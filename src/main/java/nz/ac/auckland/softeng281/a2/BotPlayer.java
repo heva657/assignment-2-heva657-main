@@ -14,7 +14,15 @@ public class BotPlayer extends Participant {
 	@Override
 	public Action decideAction() {
 		// TODO
-		return new Random().nextBoolean() ? Action.HIT : Action.HOLD; // FIXME
+		int value = getCurrentHand().getScore();
+
+		if (value<17)
+			return Action.HIT;
+		else
+			return Action.HOLD;
+
+//		wtf does this mean luv
+//		return new Random().nextBoolean() ? Action.HIT : Action.HOLD; // FIXME
 	}
 
 	@Override
