@@ -27,7 +27,8 @@ public class BotPlayer extends Participant {
 
 	@Override
 	public int makeABet() {
-		// TODO
-		return -1; // FIXME
+//		will this do between 0 incl and 100 excl?
+		int randomInt = (1+(int)(100.0 * Math.random()));
+		return randomInt; // FIXME
 	}
 }
