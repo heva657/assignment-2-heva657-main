@@ -13,10 +13,14 @@ public class BlackJack {
 
 	public BlackJack() {
 		players = new ArrayList<>();
-		dealer = null; // FIXME Task 2
+
+
+
+		// FIXME Task 2
 		players.add(new HumanPlayer("Player1"));
 		players.add(new BotPlayer("Bot1"));
 		players.add(new BotPlayer("Bot2"));
+		dealer = new BotDealer("Dealer", players);
 	}
 
 	// getter setter for testing purposes
@@ -51,6 +55,7 @@ public class BlackJack {
 				player.play(deck);
 			}
 			// ADDHERE Task 2
+			dealer.play(deck);
 			checkWinner();
 			System.out.println("Do you want to play again?");
 			result = Utils.scanner.next();
