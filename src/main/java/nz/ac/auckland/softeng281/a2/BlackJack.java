@@ -80,9 +80,14 @@ public class BlackJack {
 			if (dealerScore>21) {
 				dealerScore=0;
 			}
+			if ((playerScore==21)&&(dealerScore==playerScore)){
+				System.out.println(player.getName() + " wins");
+			}
 			if (playerScore>dealerScore) {
 				System.out.println(player.getName() + " wins");
 			}
+//			else if ()
+
 		}
 	}
 
