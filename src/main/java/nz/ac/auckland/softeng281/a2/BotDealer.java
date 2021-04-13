@@ -12,7 +12,11 @@ public class BotDealer extends Participant {
 
 	public BotDealer(String name, List<Participant> players) {
 		super(name);
-		// ADDHERE
+		this.players=players;
+
+
+// ADDHERE
+
 	}
 
 	@Override
