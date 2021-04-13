@@ -71,7 +71,18 @@ public class BlackJack {
 		// TODO Task 3
 		for (Participant player : players) { // KEEPTHIS
 			// ADDHERE
-			// System.out.println(player.getName() + " wins"); // UNCOMMENT AND KEEPTHIS
+			int playerScore = player.getCurrentHand().getScore();
+			int dealerScore = dealer.getCurrentHand().getScore();
+
+			if (playerScore>21) {
+				playerScore=0;
+			}
+			if (dealerScore>21) {
+				dealerScore=0;
+			}
+			if (playerScore>dealerScore) {
+				System.out.println(player.getName() + " wins");
+			}
 		}
 	}
 
