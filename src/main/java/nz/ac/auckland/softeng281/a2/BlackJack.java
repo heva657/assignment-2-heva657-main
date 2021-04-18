@@ -14,9 +14,7 @@ public class BlackJack {
 	public BlackJack() {
 		players = new ArrayList<>();
 
-
-
-		// FIXME Task 2
+		// Task 2
 		players.add(new HumanPlayer("Player1"));
 		players.add(new BotPlayer("Bot1"));
 		players.add(new BotPlayer("Bot2"));
@@ -54,7 +52,7 @@ public class BlackJack {
 			for (Participant player : players) {
 				player.play(deck);
 			}
-			// ADDHERE Task 2
+			// Task 2
 			dealer.play(deck);
 			checkWinner();
 			System.out.println("Do you want to play again?");
@@ -74,6 +72,9 @@ public class BlackJack {
 			int playerScore = player.getCurrentHand().getScore();
 			int dealerScore = dealer.getCurrentHand().getScore();
 
+			//
+			double playerGain=-player.makeABet();
+
 			if (playerScore>21) {
 				playerScore=0;
 			}
@@ -82,14 +83,25 @@ public class BlackJack {
 			}
 			if ((playerScore==21)&&(dealerScore==playerScore)){
 				System.out.println(player.getName() + " wins");
+
+				//adding code for summing up the bets
+				playerGain=playerGain+player.makeABet()*1.5;
 			}
 			if (playerScore>dealerScore) {
 				System.out.println(player.getName() + " wins");
+				// adding code for summing bets
 			}
-//			else if ()
+			if (playerScore==21) {
+				System.out.println(player.getName() + " wins");
+				//adding code for summing up the bets
+				playerGain=playerGain+player.makeABet()*1.5;
+			}
+
 
 		}
 	}
+
+
 
 	public void printPlayerHighestGain() {
 		// TODO Task 4
