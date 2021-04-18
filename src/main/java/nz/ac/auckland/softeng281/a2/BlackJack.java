@@ -90,6 +90,7 @@ public class BlackJack {
 			if (playerScore>dealerScore) {
 				System.out.println(player.getName() + " wins");
 				// adding code for summing bets
+				playerGain=playerGain+player.makeABet();
 			}
 			if (playerScore==21) {
 				System.out.println(player.getName() + " wins");
@@ -101,28 +102,88 @@ public class BlackJack {
 		}
 	}
 
+	//helper method
+	public double getPlayerGain(int playerScore, int dealerScore, double  bet) {
 
+			double playerGain=bet;
+
+			if (playerScore>21) {
+				playerScore=0;
+			}
+			if (dealerScore>21) {
+				dealerScore=0;
+			}
+			if ((playerScore==21)&&(dealerScore==playerScore)){
+
+				//adding code for summing up the bets
+				playerGain=playerGain+bet*1.5;
+			}
+			if (playerScore>dealerScore) {
+				// adding code for summing bets
+				playerGain=playerGain+bet;
+			}
+			if (playerScore==21) {
+				//adding code for summing up the bets
+				playerGain=playerGain+bet*1.5;
+			}
+
+		return playerGain;
+		}
 
 	public void printPlayerHighestGain() {
 		// TODO Task 4
+		double[] playerGains = {0,0,0};
+		double playerOne=0;
+		double playerTwo=0;
+		double playerThree=0;
+		int handsPlayed = dealer.getHands().size();
+		String[] names = {"Player1", "Bot1", "Bot2"};
+		String winner=names[1];
+		int x=0;
 
-//		getHands() returns a list of Hands, you have to just scan the list, you can use a for loop 
 
-//		getScore()
-//		int playerOneBet=players.get(2).makeABet();
-//
-//		players.get(2).getHands().get(0).getScore();
+			for (int c=0; c<=handsPlayed;c++) {
 
-//		The most important thing to recognise with this task is that the Participant class – and thus all the players – have a list of all the hands that that player has played.
-//
-//		Another key thing to recognise is that the length of the list in all players/dealer is the same. This makes sense as they all have all participated the same number of rounds. So for every hand played (in the list of Hands), you could possibly compare the player's hand and the dealer's hand to see if they win against the dealer or not.
-//
-//				As Hands have a bet property that tells us the amount the bot/player bet on a particular hand, it makes sense for us to keep track of the amount of chips that the player has won – where the player wins, add it to the "balance"; where the player loses; subtract.
-//
-//				Hopefully this helps a little
+				for (Participant player : players) {
 
-//		if
-//		dealer.b
-//		System.out.println("The player with the highest gain is: " + name + " with " + totalGain + " chips"); // UNCOMMENT AND KEEPTHIS
+//				List<Hand> copy = new ArrayList<>();
+//				copy.addAll(player.getHands());
+				int playerScore = player.getHands().get(c).getScore();
+				int dealerScore = dealer.getHands().get(c).getScore();
+
+				//
+				double bet = -player.makeABet();
+
+				playerGains[x]=playerGains[x]+getPlayerGain(playerScore,dealerScore,bet);
+				x++;
+			}
+
+		}
+
+		double[] playerGainsCopy =playerGains;
+
+		double temp;
+		for (int i = 0; i <=playerGains.length; i++)
+
+		{
+			for (int j = i + 1; j < playerGains.length; j++)
+			{
+				if (playerGains[i] > playerGains[j])
+				{
+					temp = playerGains[i];
+					playerGains[i] = playerGains[j];
+					playerGains[j] = temp;
+				}
+			}
+		}
+		double highestGain = playerGains[playerGains.length-1];
+
+		for (int i=0;i<3;i++) {
+			if (playerGainsCopy[i] == highestGain) {
+				winner = names[i];
+			}
+		}
+
+		System.out.println("The player with the highest gain is: " + winner + " with " + highestGain + " chips");
 	}
 }
