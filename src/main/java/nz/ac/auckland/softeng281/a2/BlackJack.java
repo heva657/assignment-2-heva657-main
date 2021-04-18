@@ -13,8 +13,7 @@ public class BlackJack {
 
 	public BlackJack() {
 		players = new ArrayList<>();
-
-		// Task 2
+		dealer = null; // FIXME Task 2
 		players.add(new HumanPlayer("Player1"));
 		players.add(new BotPlayer("Bot1"));
 		players.add(new BotPlayer("Bot2"));
@@ -43,27 +42,49 @@ public class BlackJack {
 		game.start();
 	}
 
-	protected void start() {
-		Utils.printBlackJack();
-		// create a new deck of cards
-		Deck deck = new Deck();
-		String result;
-		do {
-			for (Participant player : players) {
-				player.play(deck);
-			}
-			// Task 2
-			dealer.play(deck);
-			checkWinner();
-			System.out.println("Do you want to play again?");
+
+//	protected void start() {
+//		Utils.printBlackJack();
+//		// create a new deck of cards
+//		Deck deck = new Deck();
+//		String result;
+//		do {
+//			for (Participant player : players) {
+//				player.play(deck);
+//			}
+//			// Task 2
+//			dealer.play(deck);
+//			checkWinner();
+//			System.out.println("Do you want to play again?");
+//			result = Utils.scanner.next();
+//			while (!result.equals("yes") && !result.equals("no")) {
+//				System.out.println("please type either \"yes\" or \"no\"");
+//				result = Utils.scanner.next();
+//			}
+//		} while (result.equals("yes"));
+//		printPlayerHighestGain();
+//	}
+protected void start() {
+	Utils.printBlackJack();
+	// create a new deck of cards
+	Deck deck = new Deck();
+	String result;
+	do {
+		for (Participant player : players) {
+			player.play(deck);
+		}
+		// ADDHERE Task 2
+		dealer.play(deck);
+		checkWinner();
+		System.out.println("Do you want to play again?");
+		result = Utils.scanner.next();
+		while (!result.equals("yes") && !result.equals("no")) {
+			System.out.println("please type either \"yes\" or \"no\"");
 			result = Utils.scanner.next();
-			while (!result.equals("yes") && !result.equals("no")) {
-				System.out.println("please type either \"yes\" or \"no\"");
-				result = Utils.scanner.next();
-			}
-		} while (result.equals("yes"));
-		printPlayerHighestGain();
-	}
+		}
+	} while (result.equals("yes"));
+	printPlayerHighestGain();
+}
 
 	public void checkWinner() {
 		// TODO Task 3
