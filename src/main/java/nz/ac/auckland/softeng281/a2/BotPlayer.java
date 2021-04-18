@@ -10,6 +10,7 @@ public class BotPlayer extends Participant {
 	public BotPlayer(String name) {
 		super(name);
 	}
+//	public int bet;
 
 	@Override
 	public Action decideAction() {
@@ -27,8 +28,12 @@ public class BotPlayer extends Participant {
 
 	@Override
 	public int makeABet() {
-//		will this do between 0 incl and 100 excl?
-		int randomInt = (1+(int)(100.0 * Math.random()));
-		return randomInt; // FIXME
+		int randomBet = (1+(int)(100.0 * Math.random()));
+//		this.bet=randomBet;
+		return randomBet; // FIXME
 	}
+
+//	public int getBet() {
+//		return bet;
+//	}
 }

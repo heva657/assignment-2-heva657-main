@@ -105,7 +105,24 @@ public class BlackJack {
 
 	public void printPlayerHighestGain() {
 		// TODO Task 4
-		// System.out.println("The player with the highest gain is: " + name + " with "
-		// + totalGain + " chips"); // UNCOMMENT AND KEEPTHIS
+
+//		getHands() returns a list of Hands, you have to just scan the list, you can use a for loop 
+
+//		getScore()
+//		int playerOneBet=players.get(2).makeABet();
+//
+//		players.get(2).getHands().get(0).getScore();
+
+//		The most important thing to recognise with this task is that the Participant class – and thus all the players – have a list of all the hands that that player has played.
+//
+//		Another key thing to recognise is that the length of the list in all players/dealer is the same. This makes sense as they all have all participated the same number of rounds. So for every hand played (in the list of Hands), you could possibly compare the player's hand and the dealer's hand to see if they win against the dealer or not.
+//
+//				As Hands have a bet property that tells us the amount the bot/player bet on a particular hand, it makes sense for us to keep track of the amount of chips that the player has won – where the player wins, add it to the "balance"; where the player loses; subtract.
+//
+//				Hopefully this helps a little
+
+//		if
+//		dealer.b
+//		System.out.println("The player with the highest gain is: " + name + " with " + totalGain + " chips"); // UNCOMMENT AND KEEPTHIS
 	}
 }

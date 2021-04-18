@@ -23,10 +23,10 @@ import static org.junit.Assert.fail;
 
 @RunWith(Suite.class)
 @SuiteClasses({BlackJackTestSuite.Task1Test.class,
-// BlackJackTestSuite.Task2Test.class,
-// BlackJackTestSuite.Task3Test.class,
-// BlackJackTestSuite.Task4Test.class,
-// BlackJackTestSuite.YourTests.class
+ BlackJackTestSuite.Task2Test.class,
+ BlackJackTestSuite.Task3Test.class,
+ BlackJackTestSuite.Task4Test.class,
+ BlackJackTestSuite.YourTests.class
 })
 public class BlackJackTestSuite {
     @FixMethodOrder(MethodSorters.JVM)
@@ -629,6 +629,104 @@ public class BlackJackTestSuite {
             assertTrue(true);
         }
 
+        Participant dealer;
+        List<Participant> players;
+        BlackJack game;
+        ByteArrayOutputStream myOut;
+        PrintStream origOut;
+
+        @Before
+        public void setUp() {
+            game = new BlackJack();
+            players = new ArrayList<>();
+            players.add(new BotPlayer("Bot1"));
+            players.add(new BotPlayer("Bot2"));
+            players.add(new BotPlayer("Bot3"));
+            dealer = new BotDealer("Dealer", players);
+            game.setPlayers(players);
+            game.setDealer(dealer);
+            origOut = System.out;
+            myOut = new ByteArrayOutputStream();
+            System.setOut(new PrintStream(myOut));
+        }
+
+        @After
+        public void tearDown() {
+            System.setOut(origOut);
+            if (myOut.toString().length() > 1) {
+                System.out.println(System.lineSeparator() + "the System.out.print was :" + System.lineSeparator()
+                        + myOut.toString());
+            }
+        }
+
+        @Test
+        public void testAllPlayersLost() {
+            HandFactory.addHand(players.get(0), 10, new Card(Card.Rank.EIGHT, Card.Suit.CLUBS),
+                    new Card(Card.Rank.TEN, Card.Suit.CLUBS));
+            HandFactory.addHand(players.get(1), 10, new Card(Card.Rank.EIGHT, Card.Suit.CLUBS),
+                    new Card(Card.Rank.TEN, Card.Suit.CLUBS));
+            HandFactory.addHand(players.get(2), 10, new Card(Card.Rank.EIGHT, Card.Suit.CLUBS),
+                    new Card(Card.Rank.TEN, Card.Suit.CLUBS));
+            HandFactory.addHand(dealer, 10, new Card(Card.Rank.ACE, Card.Suit.CLUBS),
+                    new Card(Card.Rank.TEN, Card.Suit.CLUBS));
+            game.checkWinner();
+            assertFalse("none of the players won the game should not print that some one won",
+                    myOut.toString().contains("wins"));
+        }
+
+        @Test
+        public void testOnePlayerWon() {
+            HandFactory.addHand(players.get(0), 10, new Card(Card.Rank.ACE, Card.Suit.CLUBS),
+                    new Card(Card.Rank.TWO, Card.Suit.CLUBS), new Card(Card.Rank.EIGHT, Card.Suit.CLUBS),
+                    new Card(Card.Rank.QUEEN, Card.Suit.CLUBS));
+            HandFactory.addHand(players.get(1), 10, new Card(Card.Rank.EIGHT, Card.Suit.CLUBS),
+                    new Card(Card.Rank.TEN, Card.Suit.CLUBS));
+            HandFactory.addHand(players.get(2), 10, new Card(Card.Rank.EIGHT, Card.Suit.CLUBS),
+                    new Card(Card.Rank.TEN, Card.Suit.CLUBS));
+            HandFactory.addHand(dealer, 10, new Card(Card.Rank.QUEEN, Card.Suit.CLUBS),
+                    new Card(Card.Rank.TEN, Card.Suit.CLUBS));
+            game.checkWinner();
+
+            assertTrue("Bot1 won, you should print \"Bot1 wins\" ", myOut.toString().contains("Bot1 wins"));
+            assertFalse("Bot2 didn't won, you should not print \"Bot2 wins\"", myOut.toString().contains("Bot2 wins"));
+            assertFalse("Bot3 didn't won, you should not print \"Bot3 wins\"", myOut.toString().contains("Bot3 wins"));
+        }
+
+        @Test
+        public void allPlayersLoseBust() {
+            HandFactory.addHand(players.get(0), 10, new Card(Card.Rank.KING, Card.Suit.CLUBS),
+                    new Card(Card.Rank.TEN, Card.Suit.CLUBS), new Card(Card.Rank.TEN, Card.Suit.HEARTS));
+            HandFactory.addHand(players.get(1), 10, new Card(Card.Rank.KING, Card.Suit.CLUBS),
+                    new Card(Card.Rank.TEN, Card.Suit.CLUBS), new Card(Card.Rank.TEN, Card.Suit.HEARTS));
+            HandFactory.addHand(players.get(2), 10, new Card(Card.Rank.KING, Card.Suit.CLUBS),
+                    new Card(Card.Rank.TEN, Card.Suit.CLUBS), new Card(Card.Rank.TEN, Card.Suit.HEARTS));
+            HandFactory.addHand(dealer, 10, new Card(Card.Rank.KING, Card.Suit.CLUBS),
+                    new Card(Card.Rank.TEN, Card.Suit.CLUBS));
+            game.checkWinner();
+
+            assertFalse("Bot1 won, you should print \"Bot1 wins\" ", myOut.toString().contains("Bot1 wins"));
+            assertFalse("Bot2  won, you should print \"Bot2 wins\"", myOut.toString().contains("Bot2 wins"));
+            assertFalse("Bot3 didn't won, you should not print \"Bot3 wins\"", myOut.toString().contains("Bot3 wins"));
+        }
+
+        @Test
+        public void testAllPlayersWonDealerLess() {
+            HandFactory.addHand(players.get(0), 10, new Card(Card.Rank.ACE, Card.Suit.CLUBS),
+                    new Card(Card.Rank.ACE, Card.Suit.CLUBS));
+            HandFactory.addHand(players.get(1), 10, new Card(Card.Rank.ACE, Card.Suit.CLUBS),
+                    new Card(Card.Rank.TEN, Card.Suit.CLUBS));
+            HandFactory.addHand(players.get(2), 10, new Card(Card.Rank.EIGHT, Card.Suit.CLUBS),
+                    new Card(Card.Rank.TEN, Card.Suit.CLUBS));
+            HandFactory.addHand(dealer, 10, new Card(Card.Rank.KING, Card.Suit.CLUBS),
+                    new Card(Card.Rank.TEN, Card.Suit.CLUBS), new Card(Card.Rank.TWO, Card.Suit.CLUBS));
+            game.checkWinner();
+
+            assertTrue("Bot1 won, you should print \"Bot1 wins\" ", myOut.toString().contains("Bot1 wins"));
+            assertTrue("Bot2 won, you should print \"Bot2 wins\"", myOut.toString().contains("Bot2 wins"));
+            assertTrue("Bot3 won, you should  print \"Bot3 wins\"", myOut.toString().contains("Bot3 wins"));
+        }
+
+    }
     }
 
-}
+
