@@ -43,6 +43,10 @@ public class Hand {
 		return count;
 	}
 
+	public int getBet(){
+		return bet;
+	}
+
 	private void checkIfAcesShouldBeOne() {
 		if (score > 21) {
 			int numAces = countAces();
