@@ -35,9 +35,9 @@ public abstract class Participant {
         return hands.get(hands.size() - 1);
     }
 
-    public double getTotalGain() {
-
-    }
+//    public double getTotalGain() {
+//
+//    }
 
     public String getName() {
         return name;
