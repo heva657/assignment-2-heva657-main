@@ -69,37 +69,24 @@ public class BlackJack {
 
     public void checkWinner() {
         // TODO Task 3
-        for (Participant player : players) { // KEEPTHIS
-            // ADDHERE
+        for (Participant player : players) {
+
             int playerScore = player.getCurrentHand().getScore();
             int dealerScore = dealer.getCurrentHand().getScore();
 
-            //
-//			double playerGain=-player.makeABet();
-
-            if (playerScore > 21) {
-                playerScore = 0;
-            }
             if (dealerScore > 21) {
                 dealerScore = 0;
             }
-            if ((playerScore == 21) && (dealerScore == playerScore)) {
-                System.out.println(player.getName() + " wins");
 
-                //adding code for summing up the bets
-//				playerGain=playerGain+player.makeABet()*1.5;
-            }
-            if (playerScore > dealerScore) {
+            if (player.getCurrentHand().isBlackJack()) {
                 System.out.println(player.getName() + " wins");
-                // adding code for summing bets
-//				playerGain=playerGain+player.makeABet();
             }
-            if (playerScore == 21) {
+             if (playerScore > dealerScore && playerScore <= 21 && dealerScore <= 21) {
                 System.out.println(player.getName() + " wins");
-                //adding code for summing up the bets
-//				playerGain=playerGain+player.makeABet()*1.5;
             }
-
+             if ((playerScore <= 21) && (dealerScore == 0)) {
+                System.out.println(player.getName() + " wins");
+            }
 
         }
     }
@@ -125,11 +112,6 @@ public class BlackJack {
                     dealerScore = 0;
                 }
 
-//                if ((playerScore == 21) && (dealerScore == playerScore)) {
-//
-//                    //adding code for summing up the bets
-//                    playerGains[x] = playerGains[x] + bet * 1.5;
-//                } else
                 if (player.getHands().get(c).isBlackJack()) {
 
                     playerGains[x] = playerGains[x] + (1.5)*bet;
