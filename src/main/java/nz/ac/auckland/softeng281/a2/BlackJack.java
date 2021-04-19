@@ -26,6 +26,7 @@ public class BlackJack {
     }
 
     public Participant getDealer() {
+
         return dealer;
     }
 
@@ -33,7 +34,8 @@ public class BlackJack {
         this.players = players;
     }
 
-    public void setDealer(Participant dealer) {
+    public void setDealer(Participant dealer)
+    {
         this.dealer = dealer;
     }
 
@@ -102,92 +104,63 @@ public class BlackJack {
         }
     }
 
-//    public void printPlayerHighestGain() {
-//        Participant highest = players.get(0);
-//
-//        for (Participant player : players) {
-//            if (highest.getTotalGain() > player.getTotalGain()) highest = highest;
-//            else highest = player;
-//        }
-//
-//        System.out.println("The player with the highest gain is: " + highest.getName() + " with " + highest.getTotalGain() + " chips");
-////
-//
-//    }
-
-    //helper method
-    public double getPlayerGain(int playerScore, int dealerScore, double bet) {
-
-        double playerGain = -bet;
-
-        if (playerScore > 21) {
-            playerScore = 0;
-        }
-        if (dealerScore > 21) {
-            dealerScore = 0;
-        }
-        if ((playerScore == 21) && (dealerScore == playerScore)) {
-
-            //adding code for summing up the bets
-            playerGain = playerGain + bet * 1.5;
-        }
-        if (playerScore > dealerScore) {
-            // adding code for summing bets
-            playerGain = playerGain + bet;
-        }
-        if (playerScore == 21) {
-            //adding code for summing up the bets
-            playerGain = playerGain + bet * 1.5;
-        }
-
-        return playerGain;
-    }
 
     public void printPlayerHighestGain() {
-        // TODO Task 4
-        double[] playerGains = {0, 0, 0};
-
         int handsPlayed = dealer.getHands().size();
-        String[] names = {"Player1", "Bot1", "Bot2"};
-        String winner = names[1];
+        double[] playerGains = {0, 0, 0};
         int x = 0;
 
+        for (Participant player : players) {
 
-        for (int c = 0; c < handsPlayed; c++) {
-            x = 0;
-
-            for (Participant player : players) {
+            for (int c = 0; c < handsPlayed; c++) {
 
                 int playerScore = player.getHands().get(c).getScore();
                 int dealerScore = dealer.getHands().get(c).getScore();
 
                 //
-                double bet = - player.getHands().get(c).getBet();
+                double bet = player.getHands().get(c).getBet();
 
-                playerGains[x] = playerGains[x] + getPlayerGain(playerScore, dealerScore, bet);
-                x++;
-            }
 
-        }
-        double[] playerGainsCopy = playerGains;
-
-        double temp;
-        for (int i = 0; i <= playerGains.length; i++) {
-            for (int j = i + 1; j < playerGains.length; j++) {
-                if (playerGains[i] > playerGains[j]) {
-                    temp = playerGains[i];
-                    playerGains[i] = playerGains[j];
-                    playerGains[j] = temp;
+                if (dealerScore > 21) {
+                    dealerScore = 0;
                 }
-            }
-        }
-        double highestGain = playerGains[playerGains.length - 1];
 
-        for (int i = 0; i < 3; i++) {
-            if (playerGainsCopy[i] == highestGain) {
-                winner = names[i];
+//                if ((playerScore == 21) && (dealerScore == playerScore)) {
+//
+//                    //adding code for summing up the bets
+//                    playerGains[x] = playerGains[x] + bet * 1.5;
+//                } else
+                if (player.getHands().get(c).isBlackJack()) {
+
+                    playerGains[x] = playerGains[x] + (1.5)*bet;
+                }
+                else if (playerScore > dealerScore && playerScore <= 21 && dealerScore <= 21) {
+                    // adding code for summing bets
+                    playerGains[x] = playerGains[x] + bet;
+                }
+                else if ((playerScore <= 21) && (dealerScore == 0)) {
+                    playerGains[x] = playerGains[x] + bet;
+                }
+                else {
+                    playerGains[x] = playerGains[x] - bet;
+                }
+
+            }
+            x++;
+
+        }
+
+
+        double HighestGain = 0;
+        int max = 0;
+        for (int i = 0; i < playerGains.length; i++) {
+            if (playerGains[i] >= playerGains[max]) {
+                max = i;
+                HighestGain = playerGains[max];
             }
         }
-        System.out.println("The player with the highest gain is: " + winner + " with " + highestGain + " chips");
+
+        String winner = players.get(max).getName();
+        System.out.println("The player with the highest gain is: " + winner + " with " + HighestGain + " chips");
     }
 }
